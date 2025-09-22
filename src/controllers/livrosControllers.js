@@ -169,21 +169,4 @@ const deleteLivro = (req, res) => {
   });
 };
 
-// Filtro por subgênero
-/*const subgeneroLista = [
-  "Alta Fantasia",
-  "Fantasia Sombria",
-  "Fantasia Urbana",
-  "Fantasia Clássica",
-  "Fantasia Épica",
-  "Fantasia Científica",
-];
-
-if (!subgenero || !subgeneroLista.includes(subgeneroLista.toLowerCase())) {
-  return res.status(400).json({
-    success: false,
-    message: `O campo 'subgenero' é obrigatório e deve ser uma das opções: ${subgeneroLista.join(", ")}!`,
-  });
-} */
-
 export { createLivro, getAllLivros, getLivroById, updateLivro, deleteLivro };
