@@ -54,37 +54,9 @@ const createLivro = (req, res) => {
 
 // Get All Livros
 const getAllLivros = (req, res) => {
-  const id = parseInt(req.params.id);
-  const {
-    titulo,
-    autor,
-    saga,
-    subgenero,
-    paginas,
-    anoPublicacao,
-    editora,
-    avaliacao,
-  } = req.body;
-
-  const subgeneroLista = [
-    "Alta Fantasia",
-    "Fantasia Sombria",
-    "Fantasia Urbana",
-    "Fantasia Clássica",
-    "Fantasia Épica",
-    "Fantasia Científica",
-  ];
-
-  if (!subgenero || !subgeneroLista.includes(subgenero.toLowerCase())) {
-    return res.status(400).json({
-      success: false,
-      message: `O campo 'subgenero' é obrigatório e deve ser uma das opções: ${subgeneroLista.join(", ")}!`,
-    });
-  }
-
   res.status(200).json({
     total: livros.length,
-    livros: livros
+    livros: livros,
   });
 };
 
@@ -196,5 +168,22 @@ const deleteLivro = (req, res) => {
     livroRemovido: livroParaRemover,
   });
 };
+
+// Filtro por subgênero
+/*const subgeneroLista = [
+  "Alta Fantasia",
+  "Fantasia Sombria",
+  "Fantasia Urbana",
+  "Fantasia Clássica",
+  "Fantasia Épica",
+  "Fantasia Científica",
+];
+
+if (!subgenero || !subgeneroLista.includes(subgeneroLista.toLowerCase())) {
+  return res.status(400).json({
+    success: false,
+    message: `O campo 'subgenero' é obrigatório e deve ser uma das opções: ${subgeneroLista.join(", ")}!`,
+  });
+} */
 
 export { createLivro, getAllLivros, getLivroById, updateLivro, deleteLivro };
