@@ -1,15 +1,33 @@
 import dados from "../models/dados.js";
 const { livros } = dados;
 
-// Create - novo livro
+// Create - Novo livro
 const createLivro = (req, res) => {
-  const { titulo, autor, saga, subgenero, paginas, anoPublicacao, editora, avaliacao } = req.body;
+  const {
+    titulo,
+    autor,
+    saga,
+    subgenero,
+    paginas,
+    anoPublicacao,
+    editora,
+    avaliacao,
+  } = req.body;
 
-  if (!titulo || !autor || !saga || !subgenero || !paginas || ! anoPublicacao || !editora || !avaliacao) {
+  if (
+    !titulo ||
+    !autor ||
+    !saga ||
+    !subgenero ||
+    !paginas ||
+    !anoPublicacao ||
+    !editora ||
+    !avaliacao
+  ) {
     return res.status(400).json({
       success: false,
       message:
-        "Título, autor, saga, subgênero, páginas, ano de publicação, editra e avalição são obrigatórios!"
+        "Título, autor, saga, subgênero, páginas, ano de publicação, editra e avalição são obrigatórios!",
     });
   }
 
@@ -22,16 +40,15 @@ const createLivro = (req, res) => {
     paginas: paginas,
     anoPublicacao: anoPublicacao,
     editora: editora,
-    avaliacao: avaliacao
+    avaliacao: avaliacao,
   };
 
-  // Push no array
   livros.push(novoLivro);
 
   res.status(201).json({
     success: true,
     message: "Novo livro cadastrado com sucesso!",
-    livro: novoLivro
+    livro: novoLivro,
   });
 };
 
@@ -57,12 +74,21 @@ const getLivroById = (req, res) => {
 // Update - Atualizar livro existente por ID
 const updateLivro = (req, res) => {
   const { id } = req.params;
-  const { titulo, autor, saga, subgenero, paginas, anoPublicacao, editora, avaliacao } = req.body;
+  const {
+    titulo,
+    autor,
+    saga,
+    subgenero,
+    paginas,
+    anoPublicacao,
+    editora,
+    avaliacao,
+  } = req.body;
 
   if (isNaN(id)) {
     return res.status(400).json({
       success: false,
-      message: "ID deve ser um número válido!"
+      message: "ID deve ser um número válido!",
     });
   }
 
@@ -72,24 +98,23 @@ const updateLivro = (req, res) => {
   if (!livroExiste) {
     return res.status(404).json({
       success: false,
-      message: `Livro com ID ${id} não encontrado para atualização!`
+      message: `Livro com ID ${id} não encontrado para atualização!`,
     });
   }
 
   const livrosAtualizados = livros.map((livro) =>
     livro.id === idParaEditar
       ? {
-        ...livro,
-        ...(titulo && { titulo }),
-        ...(autor && { autor }),
-        ...(saga && { saga }),
-        ...(subgenero && { subgenero }),
-        ...(paginas && { paginas }),
-        ...(editora && { editora }),
-        ...(avaliacao && { avaliacao }),
-        ...(anoPublicacao && {anoPublicacao: parseInt(anoPublicacao),
-        }),
-      }
+          ...livro,
+          ...(titulo && { titulo }),
+          ...(autor && { autor }),
+          ...(saga && { saga }),
+          ...(subgenero && { subgenero }),
+          ...(paginas && { paginas }),
+          ...(editora && { editora }),
+          ...(avaliacao && { avaliacao }),
+          ...(anoPublicacao && { anoPublicacao: parseInt(anoPublicacao) }),
+        }
       : livro
   );
 
@@ -100,7 +125,7 @@ const updateLivro = (req, res) => {
   res.status(200).json({
     success: true,
     message: `Dados do livro ID ${id} atualizados com sucesso!`,
-    livro: livroNovo
+    livro: livroNovo,
   });
 };
 
@@ -111,7 +136,7 @@ const deleteLivro = (req, res) => {
   if (isNaN(id)) {
     return res.status(400).json({
       success: false,
-      message: "ID deve ser um número válido!"
+      message: "ID deve ser um número válido!",
     });
   }
 
@@ -121,20 +146,18 @@ const deleteLivro = (req, res) => {
   if (!livroParaRemover) {
     return res.status(404).json({
       success: false,
-      message: `Livro com ID ${id} não encontrado para remoção!`
+      message: `Livro com ID ${id} não encontrado para remoção!`,
     });
   }
 
-  const livrosFiltrados = livros.filter(
-    (livro) => livro.id !== idParaApagar
-  );
+  const livrosFiltrados = livros.filter((livro) => livro.id !== idParaApagar);
 
   livros.splice(0, livros.length, ...livrosFiltrados);
 
   res.status(200).json({
     success: true,
     message: `Livro ${livroParaRemover.titulo} (ID: ${id}) foi removido dos registros.`,
-    livroRemovido: livroParaRemover
+    livroRemovido: livroParaRemover,
   });
 };
 
